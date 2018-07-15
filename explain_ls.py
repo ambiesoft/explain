@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python3
 
 def printcmd(arg, explanation):
     print('{}: {}'.format(arg,explanation))
@@ -101,10 +101,13 @@ def explain_ls(commands):
              
             
         elif arg.startswith('-'):
-            subarg = arg[1:]
-            # Separate and add '-'
-            message = 'Same as {}'.format('-' +  ' -'.join(list(subarg)))
-            printcmd(arg, message)
+            if len(arg)==2:
+                printcmd(arg, 'Unknown')
+            else:
+                subarg = arg[1:]
+                # Separate and add '-'
+                message = 'same as "{}"'.format('-' +  ' -'.join(list(subarg)))
+                printcmd(arg, message)
                 
         else:
             printcmd(arg, 'list {}'.format(arg))
