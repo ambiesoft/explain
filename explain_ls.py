@@ -190,4 +190,4 @@ def explain_ls(commands):
         
 
 if __name__ == '__main__':
-    explain_ls('ls -Fta --block-size=100 aaa bbb .'.split())    
+    explain_ls('ls -Fta --block-size=100 -V aaa bbb .'.split())    
