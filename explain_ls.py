@@ -97,6 +97,75 @@ def explain_ls(commands):
                                       cially)''')
         elif arg=='-o':
             printcmd(arg,'like -l, but do not list group information')
+        elif arg=='-p' or arg.startswith('--indicator-style='):
+            printcmd(arg,'append / indicator to directories')
+        elif arg in ['-q', '--hide-control-chars']:
+            printcmd(arg, 'print ? instead of non graphic characters')
+        elif arg=='--show-control-chars':
+            printcmd(arg,'''show non graphic characters as-is  (default  unless  program  is
+              'ls' and output is a terminal)''')
+        elif arg in ['-Q', '--quote-name']:
+            printcmd(arg, 'enclose entry names in double quotes')
+        elif arg.startswith('--quoting-style='):
+            printcmd(arg,'''use  quoting style WORD for entry names: literal, locale, shell,
+              shell-always, c, escape''')
+        elif arg in ['-r', '--reverse']:
+            printcmd(arg, 'reverse order while sorting')
+        elif arg in ['-R', '--recursive']:
+            printcmd(arg, 'list subdirectories recursively')
+        elif arg in ['-s','--size']:
+            printcmd(arg, 'print the allocated size of each file, in blocks')
+        elif arg=='-S':
+            printcmd(arg,'sort by file size')
+        elif arg.startswith('--sort='):
+            printcmd(arg,'''sort by WORD instead of name: none -U, extension  -X,  size  -S,
+              time -t, version -v''')
+        elif arg.startswith('--time='):
+            printcmd(arg,'''with  -l,  show time as WORD instead of modification time: atime
+              -u, access -u, use -u, ctime -c, or  status  -c;  use  specified
+              time as sort key if --sort=time''')
+        elif arg.startswith('--time-style='):
+            printcmd(arg,'''with  -l, show times using style STYLE: full-iso, long-iso, iso,
+              locale, +FORMAT.  FORMAT is interpreted like 'date';  if  FORMAT
+              is  FORMAT1<newline>FORMAT2, FORMAT1 applies to non-recent files
+              and FORMAT2 to recent files; if STYLE is prefixed with 'posix-',
+              STYLE takes effect only outside the POSIX locale''')
+        elif arg=='-t':
+            printcmd(arg,'sort by modification time, newest first')
+        elif arg=='-T' or arg.startswith('--tabsize='):
+            printcmd(arg,'assume tab stops at each COLS instead of 8')
+        elif arg=='-u':
+            printcmd(arg,'''with  -lt:  sort  by, and show, access time with -l: show access
+              time and sort by name otherwise: sort by access time''')
+        elif arg=='-U':
+            printcmd(arg,'do not sort; list entries in directory order')
+        elif arg=='-v':
+            printcmd(arg,'natural sort of (version) numbers within text')
+        elif arg=='-w' or arg.startswith('--width='):
+            printcmd(arg,'assume screen width instead of current value')
+        elif arg=='-x':
+            printcmd(arg,'list entries by lines instead of by columns')
+        elif arg=='-X':
+            printcmd(arg,'sort alphabetically by entry extension')
+        elif arg in ['-Z', '--context']:
+            printcmd(arg, 'print any SELinux security context of each file')
+        elif arg=='-1':
+            printcmd(arg,'list one file per line')
+        elif arg=='--help':
+            printcmd(arg,'display this help and exit')
+        elif arg=='--version':
+            printcmd(arg,'output version information and exit')
+            
+            
+            
+            
+            
+            
+
+            
+            
+            
+  
         
              
             
