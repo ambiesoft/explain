@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from _ast import arg
 
 def printcmd(arg, explanation):
     print('{}: {}'.format(arg,explanation))
@@ -169,10 +170,10 @@ def explain_ls(commands):
   
         
              
-            
+        # 'ls' can have options like '-lAF', which means same as '-l -A -F'.
         elif arg.startswith('-'):
             if len(arg)==2:
-                printcmd(arg, 'Unknown')
+                printcmd(arg, 'Unknown or too new or error')
             else:
                 subarg = arg[1:]
                 # Separate and add '-'
@@ -180,7 +181,33 @@ def explain_ls(commands):
                 printcmd(arg, message)
                 
         else:
-            printcmd(arg, 'list {}'.format(arg))
+            message = 'list '
+            if arg=='.':
+                message += 'current directory'
+            elif arg=='..':
+                message += 'parent directory'
+            elif arg=='*':
+                message += '''every file and directory, in case of directory, list content
+                of the directory (not recursive unless '-R')'''
+            elif arg.startswith('*'):
+                message += '''every file and directory ends with '{}', in case of directory, list content
+                of the directory (not recursive unless '-R')'''.format(arg[1:])
+            elif arg.endswith('*'):
+                message += '''every file and directory starts with '{}', in case of directory, list content
+                of the directory (not recursive unless '-R')'''.format(arg[1:])
+            elif '*' in arg:
+                globArgs = arg.split('*')
+                globLen = len(globArgs)
+                if globLen==2:
+                    message += '''every file and directory starts with '{}' and ends with '{}', in case of directory, list content
+                    of the directory (not recursive unless '-R')'''.format(globArgs[0], globArgs[1])
+                else:
+                    message += '''every file and directory satisfies the glob, in case of directory, list content
+                    of the directory (not recursive unless '-R')'''
+            else:
+                message += arg
+                
+            printcmd(arg, message)
             
             
             
@@ -188,6 +215,19 @@ def explain_ls(commands):
         
             
         
-
+def printLine():
+    print('-' * 70)
+    
 if __name__ == '__main__':
-    explain_ls('ls -Fta --block-size=100 -V aaa bbb .'.split())    
+    explain_ls('ls -Fta --block-size=100 -V aaa bbb .'.split())
+    printLine()
+    explain_ls('ls *'.split())
+    printLine()    
+    explain_ls('ls aaa*'.split())
+    printLine()    
+    explain_ls('ls *bbb'.split())
+    printLine()    
+    explain_ls('ls -Fta xxx*yyy'.split())
+    printLine()    
+    explain_ls('ls -Fta xxx*yyy*zzz'.split())
+    printLine()    
