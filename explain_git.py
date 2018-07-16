@@ -21,7 +21,36 @@ def explain_git_status(commands):
         if False:
             pass
         elif arg in ['-v', '--verbose']:
-            printcmd(arg, 'be verbose')
+            printcmd(arg, '''
+  In addition to the names of files that have been changed, also show
+  the textual changes that are staged to be committed (i.e., like the
+  output of git diff --cached). If -v is specified twice, then also
+  show the changes in the working tree that have not yet been staged
+  (i.e., like the output of git diff).
+            ''')
+        elif arg in ['-s', '--short']:
+            printcmd(arg, '''
+  Give the output in the short-format.
+            ''')
+        elif arg in ['-b', '--branch']:
+            printcmd(arg, '''
+  Show the branch and tracking info even in short-format.
+            ''')
+        elif arg in ['--show-stash']:
+            printcmd(arg, '''
+  Show the number of entries currently stashed away.
+            ''')
+        elif arg.startswith('--porcelain'):
+            printcmd(arg, '''
+  Give the output in an easy-to-parse format for scripts. This is
+  similar to the short output, but will remain stable across Git
+  versions and regardless of user configuration. See below for
+  details.
+            ''')
+        elif arg in ['--long']:
+            printcmd(arg, '''
+  Give the output in the long-format. This is the default.
+            ''')
         
 def explain_git(commands):
     ''' explain '''
@@ -30,43 +59,64 @@ def explain_git(commands):
     if commands[0] == 'git':
         commands.pop(0)
     
+    skip = 0
+    subCommands = []
+    enterSub = False
     for prev,arg,next in neighborhood(commands):
         # print prev, item, next    
         # for arg in commands:
+        if enterSub:
+            # take all following args
+            #for _,subarg,_ in neighborhood(commands):
+            #    subCommands.append(subarg)
+            subCommands.append(arg)
+            continue
+
+        if skip != 0:
+          skip -= 1
+          continue
+        
         if False:
             pass
         elif arg in ['--version']:
-            printcmd(arg,'Prints the Git suite version that the git program came from.')
+            printcmd(arg,'''
+  Prints the Git suite version that the git program came from.
+            ''')
         elif arg in ['--help']:
-            printcmd(arg,''' Prints the synopsis and a list of the most commonly used commands.
-           If the option --all or -a is given then all available commands are
-           printed. If a Git command is named this option will bring up the
-           manual page for that command.''')
+            printcmd(arg,'''
+  Prints the synopsis and a list of the most commonly used commands.
+  If the option --all or -a is given then all available commands are
+  printed. If a Git command is named this option will bring up the
+  manual page for that command.
+           ''')
         elif arg in ['-C']:
-            printcmd(arg,'''Run as if git was started in "{0}" instead of the current working
-           directory. When multiple -C options are given, each subsequent
-           non-absolute -C <path> is interpreted relative to the preceding -C
-           <path>.'''.format(next))
+            printcmd(arg + ' ' + next,'''
+  Run as if git was started in "{0}" instead of the current working
+  directory. When multiple -C options are given, each subsequent
+  non-absolute -C <path> is interpreted relative to the preceding -C
+  <path>.
+            '''.format(next))
+            skip=1
         elif arg in ['-c']:
-            printcmd(arg,'''Pass a configuration parameter to the command. The value given will
-           override values from configuration files. The <name> is expected in
-           the same format as listed by git config (subkeys separated by
-           dots).'''.format(next))
+            printcmd(arg + ' ' + next, '''
+  Pass a configuration parameter to the command. The value given will
+  override values from configuration files. The "{0}" is expected in
+  the same format as listed by git config (subkeys separated by
+  dots).
+            '''.format(next.split('=')[0]))
+            skip=1
 
         elif arg.startswith('-'):
             printcmd(arg, 'Unknown')
             
         else:
             # subcommand
-            subCommands = []
-            
-            # take all following args
-            for _,subarg,_ in neighborhood(commands):
-                subCommands.append(subarg)
-            
-            explain_git_status(subCommands)
-            return
-            
+            enterSub = True
+
+    if subCommands:
+      explain_git_status(subCommands)
+      
+
             
         
             
@@ -75,7 +125,7 @@ def printLine():
     print('-' * 70)
     
 if __name__ == '__main__':
-    explain_git('git -C out/debug status -v'.split())
+    explain_git('git -C out/debug -c aaabbb=12345 status -v --porcelain'.split())
     printLine()
     explain_git('git status -v'.split())
     printLine()
