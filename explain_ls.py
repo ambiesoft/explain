@@ -7,9 +7,8 @@ def printcmd(arg, explanation):
 def explain_ls(commands):
     ''' explain '''
     
-    
+    print('ls: list files and directories')    
     if commands[0] == 'ls':
-        print('ls: list files and directories')
         commands.pop(0)
     
     for arg in commands:

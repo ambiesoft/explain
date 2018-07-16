@@ -3,6 +3,7 @@
 import sys
 from argparse import ArgumentParser
 from importlib import import_module
+from importlib.machinery import SourceFileLoader
 
 def processGit(commands):
 	if not commands:
@@ -13,10 +14,6 @@ def processLs(commands):
 	''' ls '''
 	
 
-availableCommands = {
-	'git': processGit, 
-	'ls': processLs,
-	}
 
 def mi(m):
 	''' I18N'''
@@ -42,34 +39,56 @@ def processCommand(commands):
 	if set('-_.() abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') < set(command):
 		errorExit(mi('"{}" contains invalid character').format(command))
 
+
 	moduleName = 'explain_' + command
+	
+	### load module from current directory, named 'explain_{commnad}' 
+	commandModule = SourceFileLoader(moduleName, './' + moduleName + '.py').load_module()
+	func = getattr(commandModule, moduleName)
+	func(commands)
+
+	# --- could not load only from current directory
 	# __import__(moduleFile)
 	# commandModule = sys.modules[moduleFile]
-	commandModule = import_module(moduleName)
-	func = getattr(commandModule, moduleName)
+	# commandModule = import_module(moduleName)
+	# func = getattr(commandModule, moduleName)
+	# func(commands)
 	
-	result = func(commands)
 	
 	
+#https://stackoverflow.com/q/899276	
+import csv
+def split_quote(string,quotechar='"'):
+    '''
+
+    >>> split_quote('--blah "Some argument" here')
+    ['--blah', 'Some argument', 'here']
+
+    >>> split_quote("--blah 'Some argument' here", quotechar="'")
+    ['--blah', 'Some argument', 'here']
+    '''
+    s = csv.StringIO(string)
+    C = csv.reader(s, delimiter=" ",quotechar=quotechar)
+    return list(C)[0]
+   	
+
+	   	
 def main():
 	'''
 	explain
 	'''
 	
-#	parser = ArgumentParser(
-#		prog='explain', 
-#		usage='explain command ...', 
-#		description='shows the explanation of the command')
-#		
-#	parser.add_argument('command', help='any command')
-#	args = parser.parse_args()
-
-		
-	command = sys.argv[1]
-	if not command:
-		errorExit(mi('No command specified'))
+	inList = []
+	if not sys.stdin.isatty():
+		inList = sys.argv
+	else:
+   		inList = split_quote(sys.stdin.readline())
+    
+	if not inList:
+		errorExit(mi('No commands specified'))
+    	    
 	
-	processCommand(sys.argv[1:])
+	processCommand(inList[1:])
 
 
 
