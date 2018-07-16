@@ -47,6 +47,11 @@ def explain_git(commands):
            directory. When multiple -C options are given, each subsequent
            non-absolute -C <path> is interpreted relative to the preceding -C
            <path>.'''.format(next))
+        elif arg in ['-c']:
+            printcmd(arg,'''Pass a configuration parameter to the command. The value given will
+           override values from configuration files. The <name> is expected in
+           the same format as listed by git config (subkeys separated by
+           dots).'''.format(next))
 
         elif arg.startswith('-'):
             printcmd(arg, 'Unknown')
