@@ -4,7 +4,7 @@ from _ast import arg
 def printcmd(arg, explanation):
     print('{}: {}'.format(arg,explanation))
     
-def explain_touch(commands):
+def expose_touch(commands):
     ''' touch '''
     
     print('touch - change file timestamps')    
@@ -35,5 +35,5 @@ def printLine():
     print('-' * 70)
     
 if __name__ == '__main__':
-    explain_touch('touch -a -c'.split())
+    expose_touch('touch -a -c'.split())
     printLine()

@@ -4,7 +4,7 @@ from _ast import arg
 def printcmd(arg, explanation):
     print('{}: {}'.format(arg,explanation))
     
-def explain_strace(commands):
+def expose_strace(commands):
     ''' touch '''
     
     print('strace - trace system calls and signals')    
@@ -94,5 +94,5 @@ def printLine():
     print('-' * 70)
     
 if __name__ == '__main__':
-    explain_strace('strace -p 12345'.split())
+    expose_strace('strace -p 12345'.split())
     printLine()

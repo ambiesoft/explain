@@ -15,7 +15,7 @@ def neighborhood(iterable):
     yield (prev_item, current_item, None)
     
         
-def explain_git_status(commands):
+def expose_git_status(commands):
     print('git-status - Show the working tree status')
     for arg in commands:
         if False:
@@ -52,8 +52,8 @@ def explain_git_status(commands):
   Give the output in the long-format. This is the default.
             ''')
         
-def explain_git(commands):
-    ''' explain '''
+def expose_git(commands):
+    ''' expose '''
     
     print('git - the stupid content tracker')    
     if commands[0] == 'git':
@@ -114,7 +114,7 @@ def explain_git(commands):
             enterSub = True
 
     if subCommands:
-      explain_git_status(subCommands)
+      expose_git_status(subCommands)
       
 
             
@@ -125,7 +125,7 @@ def printLine():
     print('-' * 70)
     
 if __name__ == '__main__':
-    explain_git('git -C out/debug -c aaabbb=12345 status -v --porcelain'.split())
+    expose_git('git -C out/debug -c aaabbb=12345 status -v --porcelain'.split())
     printLine()
-    explain_git('git status -v'.split())
+    expose_git('git status -v'.split())
     printLine()

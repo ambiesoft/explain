@@ -4,8 +4,8 @@ from _ast import arg
 def printcmd(arg, explanation):
     print('{}: {}'.format(arg,explanation))
     
-def explain_ls(commands):
-    ''' explain '''
+def expose_ls(commands):
+    ''' expose '''
     
     print('ls: list files and directories')    
     if commands[0] == 'ls':
@@ -353,15 +353,15 @@ def printLine():
     print('-' * 70)
     
 if __name__ == '__main__':
-    explain_ls('ls -Fta --block-size=100 -V aaa bbb .'.split())
+    expose_ls('ls -Fta --block-size=100 -V aaa bbb .'.split())
     printLine()
-    explain_ls('ls *'.split())
+    expose_ls('ls *'.split())
     printLine()    
-    explain_ls('ls aaa*'.split())
+    expose_ls('ls aaa*'.split())
     printLine()    
-    explain_ls('ls *bbb'.split())
+    expose_ls('ls *bbb'.split())
     printLine()    
-    explain_ls('ls -Fta xxx*yyy'.split())
+    expose_ls('ls -Fta xxx*yyy'.split())
     printLine()    
-    explain_ls('ls -Fta xxx*yyy*zzz'.split())
+    expose_ls('ls -Fta xxx*yyy*zzz'.split())
     printLine()    
