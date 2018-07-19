@@ -1,4 +1,2 @@
 __pycache__/
-expose.py~
-expose_ls.py~
-.gitignore~
+*~
