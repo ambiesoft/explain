@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 from _ast import arg
+from _operator import sub
+from createExpose import errorExit
 
 def printcmd(arg, explanation):
     print('{}: {}'.format(arg,explanation))
@@ -15,6 +17,74 @@ def neighborhood(iterable):
     yield (prev_item, current_item, None)
     
         
+def expose_git_checkout(commands):
+    print('git-checkout - Switch branches or restore working tree files')
+    
+
+    skip = 0
+
+
+    # for arg in commands:
+    for prev,arg,next in neighborhood(commands):    
+        
+        if skip != 0:
+            skip -= 1
+            continue
+        
+        if False:
+            pass
+        elif arg in ['-q', '--quiet']:
+            printcmd(arg, '''
+    Quiet, suppress feedback messages.
+            ''')
+        elif arg in ['--progress', '--no-progress']:
+            printcmd(arg, '''
+    Progress status is reported on the standard error stream by default
+    when it is attached to a terminal, unless --quiet is specified.
+    This flag enables progress reporting even if not attached to a
+    terminal, regardless of --quiet.
+              ''')
+        elif arg in ['-f', '--force']:
+            printcmd(arg, '''
+    When switching branches, proceed even if the index or the working
+    tree differs from HEAD. This is used to throw away local changes.
+    
+    When checking out paths from the index, do not fail upon unmerged
+    entries; instead, unmerged entries are ignored.
+            ''')
+        elif arg in ['--ours', '--theirs']:
+            printcmd(arg, '''
+    When checking out paths from the index, check out stage #2 (ours)
+    or #3 (theirs) for unmerged paths.
+    
+    Note that during git rebase and git pull --rebase, ours and theirs
+    may appear swapped; --ours gives the version from the branch the
+    changes are rebased onto, while --theirs gives the version from the
+    branch that holds your work that is being rebased.
+            ''')
+        elif arg in ['-b']:
+            printcmd(arg + ' ' + next, '''
+    Create a new branch named {0} and start it at
+    <start_point>; see git-branch(1) for details.
+            '''.format(next))
+            skip=1            
+        elif arg in ['-t', '--track']:
+            printcmd(arg, '''
+    When creating a new branch, set up "upstream" configuration. See
+    "--track" in git-branch(1) for details.
+    
+    If no -b option is given, the name of the new branch will be
+    derived from the remote-tracking branch, by looking at the local
+    part of the refspec configured for the corresponding remote, and
+    then stripping the initial part up to the "*". This would tell us
+    to use "hack" as the local branch when branching off of
+    "origin/hack" (or "remotes/origin/hack", or even
+    "refs/remotes/origin/hack"). If the given name has no slash, or the
+    above guessing results in an empty name, the guessing is aborted.
+    You can explicitly give a name with -b in such a case.
+            ''')
+
+
 def expose_git_status(commands):
     print('git-status - Show the working tree status')
     for arg in commands:
@@ -51,6 +121,8 @@ def expose_git_status(commands):
             printcmd(arg, '''
   Give the output in the long-format. This is the default.
             ''')
+
+
         
 def expose_git(commands):
     ''' expose '''
@@ -61,11 +133,11 @@ def expose_git(commands):
     
     skip = 0
     subCommands = []
-    enterSub = False
+    subCommand = ''
     for prev,arg,next in neighborhood(commands):
         # print prev, item, next    
         # for arg in commands:
-        if enterSub:
+        if subCommand:
             # take all following args
             #for _,subarg,_ in neighborhood(commands):
             #    subCommands.append(subarg)
@@ -73,8 +145,8 @@ def expose_git(commands):
             continue
 
         if skip != 0:
-          skip -= 1
-          continue
+            skip -= 1
+            continue
         
         if False:
             pass
@@ -111,10 +183,17 @@ def expose_git(commands):
             
         else:
             # subcommand
-            enterSub = True
+            subCommand = arg
 
     if subCommands:
-      expose_git_status(subCommands)
+        funcname = 'expose_git_{}'.format(subCommand)
+        if funcname not in globals():
+            errorExit('function {} not found'.format(funcname))
+             
+        func = globals()[funcname]
+
+        func(subCommands)
+        
       
 
             
