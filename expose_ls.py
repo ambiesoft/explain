@@ -8,6 +8,8 @@ def expose_ls(commands):
     ''' expose '''
     
     print('ls: list files and directories')    
+    if len(commands)==0:
+        return
     if commands[0] == 'ls':
         commands.pop(0)
     

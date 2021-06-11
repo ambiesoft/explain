@@ -5,11 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: expose ls -l",
+            "name": "Python: expose ls",
             "type": "python",
             "request": "launch",
-            "program": "expose.py",
-            "args": ["ls", "-l"],
+            "program": "expose",
+            "args": ["ls"],
             "console": "integratedTerminal"
         }
     ]
