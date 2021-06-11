@@ -66,18 +66,19 @@ def main():
     expose
     '''
     
+    # nazo    
+    # inList = []
+    # if not sys.stdin.isatty():
+    #     inList = sys.argv
+    # else:
+    #     inList = split_quote(sys.stdin.readline())
     
-    inList = []
-    if not sys.stdin.isatty():
-        inList = sys.argv
-    else:
-        inList = split_quote(sys.stdin.readline())
-    
-    if not inList:
-        errorExit(_('No commands specified'))
+    # if not inList:
+    #     errorExit(_('No commands specified'))
             
-    
-    processCommand(inList[1:])
+    if len(sys.argv) < 2:
+        exit('No command')
+    processCommand(sys.argv[1:])
 
 
 
