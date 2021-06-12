@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 from _ast import arg
-
-def printcmd(arg, explanation):
-    print('{}: {}'.format(arg,explanation))
+from common import printcmd
     
 def expose_ls(commands):
     ''' expose '''
@@ -10,6 +8,9 @@ def expose_ls(commands):
     print('ls: list files and directories')    
     if len(commands)==0:
         return
+    expose_ls2(commands)
+
+def expose_ls2(commands):
     if commands[0] == 'ls':
         commands.pop(0)
     
@@ -272,34 +273,15 @@ def expose_ls(commands):
             printcmd(arg,'''
   output version information and exit
             ''')
-            
-            
-            
-            
-            
-            
-            
-
-            
-            
-            
-  
-        
-             
         # 'ls' can have options like '-lAF', which means same as '-l -A -F'.
+        # compressed options
         elif arg.startswith('-'):
             if len(arg)==2:
-                printcmd(arg, '''
-  Unknown or too new or error
-                ''')
+                printcmd(arg, 'Unknown or too new or error')
             else:
-                subarg = arg[1:]
-                # Separate and add '-'
-                message = '''
-  same as "{}"
-                '''.format('-' +  ' -'.join(list(subarg)))
-                printcmd(arg, message)
-                
+                # Separate and add '-' for example,
+                # '-df' becomes ['-d', '-f']
+                expose_ls2(['-' + c for c in arg[1:]])                
         else:
             allmessage = '{0}'
             

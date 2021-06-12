@@ -5,11 +5,35 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: expose ls",
+            "name": "Python: expose git-ls",
             "type": "python",
             "request": "launch",
             "program": "expose",
-            "args": ["ls"],
+            "args": ["ls", "-Fla"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: expose git-clean",
+            "type": "python",
+            "request": "launch",
+            "program": "expose",
+            "args": ["git", "clean", "-e", "aaa","-df"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: expose sed",
+            "type": "python",
+            "request": "launch",
+            "program": "expose",
+            "args": ["sed", "--debug"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: expose unknown",
+            "type": "python",
+            "request": "launch",
+            "program": "expose",
+            "args": ["unknown", "clean", "-e", "aaa","-df"],
             "console": "integratedTerminal"
         }
     ]
