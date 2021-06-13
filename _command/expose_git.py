@@ -4,18 +4,6 @@ from _operator import sub
 from createExpose import errorExit
 from common import printcmd,neighborhood
 
-    
-def neighborhood(iterable):
-    iterator = iter(iterable)
-    prev_item = None
-    current_item = next(iterator)  # throws StopIteration if empty.
-    for next_item in iterator:
-        yield (prev_item, current_item, next_item)
-        prev_item = current_item
-        current_item = next_item
-    yield (prev_item, current_item, None)
-    
-        
 def expose_git_checkout(commands):
     print('git-checkout - Switch branches or restore working tree files')
     

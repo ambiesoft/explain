@@ -5,7 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: expose git-ls",
+            "name": "Python: ffmpeg",
+            "type": "python",
+            "request": "launch",
+            "program": "expose",
+            "args": ["ffmpeg", "-filters"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: ls",
             "type": "python",
             "request": "launch",
             "program": "expose",
@@ -13,7 +21,7 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Python: expose git-clean",
+            "name": "Python: git-clean",
             "type": "python",
             "request": "launch",
             "program": "expose",
@@ -21,7 +29,7 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Python: expose sed",
+            "name": "Python: sed",
             "type": "python",
             "request": "launch",
             "program": "expose",
@@ -29,7 +37,7 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Python: expose unknown",
+            "name": "Python: unknown",
             "type": "python",
             "request": "launch",
             "program": "expose",
