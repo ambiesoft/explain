@@ -248,7 +248,7 @@ def expose_git(commands):
             # subcommand
             subCommand = arg
 
-    if subCommands:
+    if subCommand:
         funcname = 'expose_git_{}'.format(subCommand)
         if funcname not in globals():
             errorExit('function {} not found'.format(funcname))
